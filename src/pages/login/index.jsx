@@ -1,50 +1,92 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { login } from "../../Api";
 
 function Login() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({ email: "", senha: "" });
+  const [erro, setErro] = useState("");
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const usuario = await login(form.email, form.senha);
+  
+      sessionStorage.setItem("usuarioId", usuario.id);
+      
+      navigate("/consultasAgendadas");
+    } catch (error) {
+      setErro(error.message);
+    }
+  };
+  
+
   return (
-    <div className="bg-blue-300 min-h-screen">
-      <NavLink className="bg-blue-300 text-blue-950">
-        {/* DEFININDO O MENU RESPONSIVO */}
-        <div className="mx-auto px-4 sm:px-6 lg:px-8 border-b-2 border-white">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <Link to="/">Início</Link>
+    <div className="bg-gradient-to-b from-blue-300 to-blue-100 min-h-screen flex flex-col">
+      <nav className="bg-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <Link to="/" className="text-xl font-semibold text-blue-900">
+              Agenda Psi
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      <div className="flex flex-col items-center justify-center flex-1 p-4">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+          <h2 className="text-3xl font-semibold text-blue-900 mb-6">Login</h2>
+          {erro && <p className="text-red-500 mb-4">{erro}</p>}
+
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <div>
+              <label className="block text-blue-900 mb-1">E-mail</label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="seuemail@exemplo.com"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
             </div>
-          </div>
-        </div>
-        {/* FINALIZANDO O MENU */}
-      </NavLink>
-      <div className="text-blue-900 pt-[1%]">
-        <div className="p-[10%] flex flex-col pb-[5%]">
-          <h2 class="text-left text-3xl pb-[3%]">Login</h2>
 
-          <div className="text-left pl-[3%] text-2xl">
-            <form action="">
-              <label>E-mail: </label>
-              <input placeholder="xxxxxxxxx@x.com" type="email" />
-              <br />
+            <div>
+              <label className="block text-blue-900 mb-1">Senha</label>
+              <input
+                type="password"
+                name="senha"
+                value={form.senha}
+                onChange={handleChange}
+                placeholder="Digite sua senha"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
+            </div>
 
-              <label>Senha: </label>
-              <input placeholder="Senha" type="password" />
-              <br />
-              <br />
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Entrar
+            </button>
+          </form>
 
-              <Link to="/consultasAgendadas">Entrar</Link>
-            </form>
-          </div>
-        </div>
-
-        <div className="flex flex-col justify-center items-center pt-0 p-[2%] text-1xl">
-          <h3>Não possui conta?</h3>
-
-          {/*
-      <button>Cadastro Paciente</button>
-      <button>Cadastro Psicólogo</button>
-      */}
-
-          <div className="text-blue-800 space-x-5">
-            <Link to="/CadastroPaciente">Cadastro Paciente </Link>
-            <Link to="/CadastroPsicologo">Cadastro Psicólogo</Link>
+          <div className="text-center mt-6">
+            <p className="text-blue-900">Não possui conta?</p>
+            <div className="flex justify-center space-x-4 mt-2">
+              <Link to="/cadastroPaciente" className="text-blue-700 hover:underline">
+                Cadastro Paciente
+              </Link>
+              <Link to="/cadastroPsicologo" className="text-blue-700 hover:underline">
+                Cadastro Psicólogo
+              </Link>
+            </div>
           </div>
         </div>
       </div>

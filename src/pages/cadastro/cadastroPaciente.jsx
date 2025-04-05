@@ -1,103 +1,169 @@
-import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link, NavLink } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { cadastrarPaciente } from "../../Api";
 
 function CadastroPaciente() {
-  const nomeCompletoRef = useRef()
-  const cpfRef = useRef()
-  const generoRef = useRef()
-  const dataNascimentoRef = useRef()
-  const emailRef = useRef()
-  const senhaRef = useRef()
-
-  function handleSubmit(event) {
-    event.preventDefault();
-  
-    const paciente = {
-      nomeCompleto: nomeCompletoRef.current.value,
-      cpf: cpfRef.current.value,
-      genero: generoRef.current.value,
-      dataNascimento: dataNascimentoRef.current.value,
-      email: emailRef.current.value,
-      senha: senhaRef.current.value
-    };
-  
-    fetch("http://localhost:8080/pacientes/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(paciente)
-    })
-    .then(response => response.json())
-    .then(data => {
-      alert("Cadastro realizado com sucesso!");
-    })
-    .catch(error => {
-      console.error("Erro ao cadastrar:", error);
-      alert("Erro ao cadastrar paciente.");
-    });
-  }
-
   const navigate = useNavigate();
-  
+  const [form, setForm] = useState({
+    nomeCompleto: "",
+    cpf: "",
+    telefone: "",
+    email: "",
+    genero: "",
+    dataNascimento: "",
+    senha: "",
+  });
+  const [erro, setErro] = useState("");
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await cadastrarPaciente(form);
+      navigate("/login");
+    } catch (error) {
+      setErro(error.message);
+    }
+  };
 
   return (
-    <div className="bg-blue-300 min-h-screen text-base">
-      <NavLink className="bg-blue-300 text-blue-950">
-        {/* DEFININDO O MENU RESPONSIVO */}
-        <div className="mx-auto px-4 sm:px-6 lg:px-8 border-b-2 border-white">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <Link to="/">Início</Link>
+    <div className="bg-gradient-to-b from-blue-300 to-blue-100 min-h-screen flex flex-col">
+      <nav className="bg-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <Link to="/" className="text-xl font-semibold text-blue-900">
+              Agenda Psi
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      <div className="flex flex-col items-center justify-center flex-1 p-4">
+        <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-8">
+          <h2 className="text-3xl font-semibold text-blue-900 mb-6">
+            Cadastro de Paciente
+          </h2>
+          {erro && <p className="text-red-500 mb-4">{erro}</p>}
+
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <div>
+              <label className="block text-blue-900 mb-1">Nome completo</label>
+              <input
+                type="text"
+                name="nomeCompleto"
+                value={form.nomeCompleto}
+                onChange={handleChange}
+                placeholder="Seu nome"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
             </div>
+
+            <div>
+              <label className="block text-blue-900 mb-1">CPF</label>
+              <input
+                type="text"
+                name="cpf"
+                value={form.cpf}
+                onChange={handleChange}
+                placeholder="xxx.xxx.xxx-xx"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-blue-900 mb-1">Telefone</label>
+              <input
+                type="text"
+                name="telefone"
+                value={form.telefone}
+                onChange={handleChange}
+                placeholder="(xx) xxxxx-xxxx"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-blue-900 mb-1">E-mail</label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="seuemail@exemplo.com"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-blue-900 mb-1">Gênero</label>
+              <select
+                name="genero"
+                value={form.genero}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              >
+                <option value="" disabled>
+                  Selecione
+                </option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Outro">Outro</option>
+                <option value="Prefiro não informar">
+                  Prefiro não informar
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-blue-900 mb-1">Data de Nascimento</label>
+              <input
+                type="date"
+                name="dataNascimento"
+                value={form.dataNascimento}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-blue-900 mb-1">Senha</label>
+              <input
+                type="password"
+                name="senha"
+                value={form.senha}
+                onChange={handleChange}
+                placeholder="Digite sua senha"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Cadastrar
+            </button>
+          </form>
+
+          <div className="text-center mt-6">
+            <Link to="/login" className="text-blue-700 hover:underline">
+              Já tem uma conta? Faça login!
+            </Link>
           </div>
-        </div>
-        {/* FINALIZANDO O MENU */}
-      </NavLink>
-
-      <div className="text-blue-900 pt-[1%]">
-        <div className="pl-[10%] pb-[5%] p-[4%] flex flex-col ">
-          <h2 className="text-left text-3xl pb-[3%]">Cadastro de Paciente</h2>
-
-          <div className="text-left pl-[3%] text-2xl">
-            <form onSubmit={handleSubmit}>
-              <label>Nome completo: </label>
-              <input ref={nomeCompletoRef} placeholder="Seu nome" type="text" />
-              <br />
-
-              <label>CPF: </label>
-              <input ref={cpfRef} placeholder="xxxxxxxxxxx" type="text" />
-              <br />
-
-              <label>Gênero: </label>
-              <input ref={generoRef} placeholder="Gênero" type="text" />
-              <br />
-
-              <label>Data de Nascimento: </label>
-              <input ref={dataNascimentoRef} type="date" />
-              <br />
-              
-              <label>E-mail: </label>
-              <input ref={emailRef} placeholder="seuemail@email.com" type="email" />
-              <br />
-
-              <label>Senha: </label>
-              <input ref={senhaRef} placeholder="Senha" type="password" />
-              <br />
-              <br />
-
-              <button onClick={() => navigate("/login")} className="bg-blue-950 text-white py-2 px-4 rounded-md hover:underline">Cadastro</button>
-            </form>
-          </div>
-        </div>
-
-        {/* Ao invés do 'a', utilizamos o componente do react link */}
-        <div className="flex flex-col justify-center items-center pt-0 p-[2%] text-1xl text-blue-800">
-          <Link to="/login">Já tem uma conta? Faça login!</Link>
         </div>
       </div>
     </div>
   );
 }
+
 export default CadastroPaciente;
