@@ -1,6 +1,46 @@
+import { useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 function CadastroPsicologo() {
+
+  const nomeCompletoRef = useRef()
+  const cpfRef = useRef()
+  const crpRef = useRef()
+  const generoRef = useRef()
+  const dataNascimentoRef = useRef()
+  const emailRef = useRef()
+  const senhaRef = useRef()
+
+  function handleSubmit(event) {
+    event.preventDefault();
+  
+    const psicologo = {
+      nomeCompleto: nomeCompletoRef.current.value,
+      cpf: cpfRef.current.value,
+      crp: crpRef.current.value,
+      genero: generoRef.current.value,
+      dataNascimento: dataNascimentoRef.current.value,
+      email: emailRef.current.value,
+      senha: senhaRef.current.value
+    };
+  
+    fetch("http://localhost:8080/psicologos/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(psicologo)
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert("Cadastro realizado com sucesso!");
+    })
+    .catch(error => {
+      console.error("Erro ao cadastrar:", error);
+      alert("Erro ao cadastrar psicologo.");
+    });
+  }
+
   return (
     <div className="bg-blue-300 min-h-screen text-base">
       <NavLink className="bg-blue-300 text-blue-950">
@@ -20,41 +60,37 @@ function CadastroPsicologo() {
           <h2 class="text-left text-3xl pb-[3%]">Cadastro de Psicólogo</h2>
 
           <div className="text-left pl-[3%] text-2xl">
-            <form action="">
+            <form onSubmit={handleSubmit}>
               <label>Nome completo: </label>
-              <input placeholder="Seu nome" type="text" />
+              <input ref={nomeCompletoRef} placeholder="Seu nome" type="text" />
               <br />
 
               <label>CPF: </label>
-              <input placeholder="xxxxxxxxxxx" type="text" />
-              <br />
-
-              <label>Telefone: </label>
-              <input placeholder="xx 9xxxxxxxx" type="text" />
-              <br />
-
-              <label>E-mail: </label>
-              <input placeholder="xxxxxxxxx@x.com" type="email" />
-              <br />
-
-              <label>Gênero: </label>
-              <input placeholder="Gênero" type="text" />
-              <br />
-
-              <label>Data de Nascimento: </label>
-              <input type="date" />
+              <input ref={cpfRef} placeholder="xxxxxxxxxxx" type="text" />
               <br />
 
               <label>CRP: </label>
-              <input placeholder="CRP" type="text" />
+              <input ref={crpRef} placeholder="CRP" type="text" />
+              <br />
+
+              <label>E-mail: </label>
+              <input ref={emailRef} placeholder="xxxxxxxxx@x.com" type="email" />
+              <br />
+
+              <label>Gênero: </label>
+              <input ref={generoRef} placeholder="Gênero" type="text" />
+              <br />
+
+              <label>Data de Nascimento: </label>
+              <input ref={dataNascimentoRef} type="date" />
               <br />
 
               <label>Senha: </label>
-              <input placeholder="Senha" type="password" />
+              <input ref={senhaRef} placeholder="Senha" type="password" />
               <br />
               <br />
 
-              <Link to="/login">Cadastro</Link>
+              <button className="bg-blue-950 text-white py-2 px-4 rounded-md hover:underline">Cadastro</button>
             </form>
           </div>
         </div>

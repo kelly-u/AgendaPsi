@@ -5,7 +5,7 @@ import CadastroPsicologo from "./pages/cadastro/cadastroPsicologo";
 import ConsultasAgendadas from "./pages/consultas/consultasAgendadas";
 import AgendamentoConsultas from "./pages/consultas/agendamentoConsultas";
 import MeuPerfil from "./pages/perfil/index";
-import IndexLogado from "./pages/index/indexlogado";
+import IndexLogado from "./pages/index/indexLogado";
 import Index from "./pages/index";
 import MeuPerfilPaciente from "./pages/perfil/perfilPaciente";
 import MeuPerfilPsicologo from "./pages/perfil/perfilPsicologo";
