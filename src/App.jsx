@@ -11,6 +11,7 @@ import MeuPerfilPaciente from "./pages/perfil/perfilPaciente";
 import MeuPerfilPsicologo from "./pages/perfil/perfilPsicologo";
 import EdtPerfilPaciente from "./pages/perfil/edtPerfilPaciente";
 import EdtPerfilPsicologo from "./pages/perfil/edtPerfilPsicologo";
+import EdtSenhaPsicologo from "./pages/perfil/edtSenhaPsicologo";
 
 function App() {
   return (
@@ -59,6 +60,12 @@ function App() {
           path="/edtPerfilPsicologo"
           element={<EdtPerfilPsicologo />}
         ></Route>
+
+        <Route
+          path="/edtSenhaPsicologo"
+          element={<EdtSenhaPsicologo />}
+        ></Route>
+
       </Routes>
     </BrowserRouter>
   );

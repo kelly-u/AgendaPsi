@@ -2,10 +2,10 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:8080",
-  withCredentials: false, 
+  withCredentials: true, 
 });
 
-// 
+
 export const login = async (email, senha) => {
   try {
     const response = await api.post("/auth/login", { email, senha });
@@ -50,3 +50,28 @@ export const listarPsicologosPublicos = async () => {
       throw new Error("Erro ao buscar psicólogos.");
     }
   };
+
+  export const editarDadosPessoaisPsicologo = async (id, dados) => {
+    try {
+      const response = await api.put(`/psicologos/${id}/editar-dados`, dados);
+      return response.data;
+    } catch (error) {
+      throw new Error("Erro ao editar dados do psicólogo.");
+    }
+  };
+
+  export const alterarSenhaPsicologo = async (id, { senhaAtual, novaSenha }) => {
+    try {
+      await api.patch(
+        `/psicologos/${id}/alterar-senha`,
+        { senhaAtual, novaSenha },
+        { withCredentials: true } 
+      );
+    } catch (error) {
+      const msg = error.response?.data || "Erro ao alterar senha.";
+      throw new Error(msg);
+    }
+  };
+  
+    
+  
