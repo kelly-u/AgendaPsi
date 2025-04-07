@@ -1,6 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { buscarConsultasPaciente, buscarConsultasPsicologo } from "../../Api";
 
 function ConsultasAgendadas() {
+
+  const [consultas, setConsultas] = useState([]);
+  const [erro, setErro] = useState("");
+  const navigate = useNavigate();
+
+  const id = sessionStorage.getItem("usuarioId");
+  const tipo = sessionStorage.getItem("tipoUsuario");
+
+  useEffect(() => {
+    if (!id || !tipo) {
+      navigate("/login");
+      return;
+    }
+
+    const carregarConsultas = async () => {
+      try {
+        const dados = tipo === "paciente"
+          ? await buscarConsultasPaciente(id)
+          : await buscarConsultasPsicologo(id);
+        setConsultas(dados);
+      } catch (e) {
+        setErro("Erro ao carregar consultas.");
+      }
+    };
+
+    carregarConsultas();
+  }, [id, tipo, navigate]);
+
   return (
     <div className="bg-gradient-to-b from-blue-300 to-blue-100 min-h-screen flex flex-col">
       {/* NAVBAR */}
@@ -52,40 +82,27 @@ function ConsultasAgendadas() {
             Consultas Agendadas
           </h2>
 
-          {/* LISTA DE CONSULTAS */}
-          <ul className="space-y-4 text-blue-900">
-            <li className="border rounded-lg p-4 shadow-sm">
-              <p>
-                <strong>Psicóloga:</strong> Dra. Camila Santos
-              </p>
-              <p>
-                <strong>Data:</strong> 15/04/2025
-              </p>
-              <p>
-                <strong>Horário:</strong> 14:00
-              </p>
-              <p>
-                <strong>Modalidade:</strong> Online
-              </p>
-            </li>
+          {erro && <p className="text-red-500 text-center">{erro}</p>}
 
-            <li className="border rounded-lg p-4 shadow-sm">
-              <p>
-                <strong>Psicóloga:</strong> Dra. Milena Melo
-              </p>
-              <p>
-                <strong>Data:</strong> 20/04/2025
-              </p>
-              <p>
-                <strong>Horário:</strong> 10:30
-              </p>
-              <p>
-                <strong>Modalidade:</strong> Presencial
-              </p>
-            </li>
+          <ul className="space-y-4 text-blue-900">
+            {consultas.map((c, index) => (
+              <li key={index} className="border rounded-lg p-4 shadow-sm">
+                {tipo === "paciente" ? (
+                  <>
+                    <p><strong>Psicólogo:</strong> {c.nomeCompleto}</p>
+                  </>
+                ) : (
+                  <>
+                    <p><strong>Paciente:</strong> {c.nome}</p>
+                    <p><strong>E-mail:</strong> {c.email}</p>
+                  </>
+                )}
+                <p><strong>Data:</strong> {c.dataHora.split("T")[0]}</p>
+                <p><strong>Horário:</strong> {c.dataHora.split("T")[1].substring(0, 5)}</p>
+              </li>
+            ))}
           </ul>
 
-          {/* Botão */}
           <div className="mt-8 text-center">
             <Link
               to="/agendamentoConsultas"

@@ -72,6 +72,27 @@ export const listarPsicologosPublicos = async () => {
       throw new Error(msg);
     }
   };
+
+  export const agendarConsulta = async (pacienteId, dados) => {
+    try {
+      const response = await api.post(`/pacientes/${pacienteId}/agendar-consulta`, dados);
+      return response.data;
+    } catch (error) {
+      const msg = error.response?.data?.mensagem || "Erro ao agendar consulta.";
+      throw new Error(msg);
+    }
+  };
+
+  export const buscarConsultasPaciente = async (id) => {
+    const response = await api.get(`/pacientes/${id}/consultas`);
+    return response.data;
+  };
+  
+  export const buscarConsultasPsicologo = async (id) => {
+    const response = await api.get(`/psicologos/${id}/consultas`);
+    return response.data;
+  };
+
   
     
   

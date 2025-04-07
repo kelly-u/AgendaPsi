@@ -46,50 +46,50 @@ function Index() {
 
           {psicologos.length > 0 ? (
             <ul className="space-y-4">
-              {psicologos.map((psicologo) => {
-                const estaAberto = aberto === psicologo.id;
-                return (
-                  <li key={psicologo.id} className="border-b border-blue-200 pb-4">
-                    <button
-                      onClick={() => toggleDetalhes(psicologo.id)}
-                      className="flex items-center text-blue-900 font-medium hover:underline focus:outline-none"
-                    >
-                      <span className="mr-2 text-blue-900">
-                        {estaAberto ? "▼" : "▶"}
-                      </span>
-                      {psicologo.nomeCompleto}
-                    </button>
-
-
-                    {/* Detalhes */}
-                    <div
-                      className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                        estaAberto ? "max-h-screen mt-2" : "max-h-0"
-                      }`}
-                    >
-                      {estaAberto && (
-                        <div className="ml-6 mt-2 text-sm text-blue-800 space-y-1">
-                          <p><strong>Especialidade:</strong> {psicologo.especialidade}</p>
-                          <p><strong>Abordagem:</strong> {psicologo.abordagem}</p>
-                          <p><strong>Tempo de exercício:</strong> {psicologo.tempoExercicio}</p>
-
-                          <div className="mt-2">
-                            <strong>Horários disponíveis:</strong>
-                            <ul className="list-disc list-inside ml-4">
-                            {psicologo.horariosDisponiveis.map((h) => (
-                              <li key={`${h.diaSemana}-${h.horarioInicio}-${h.horarioFim}`}>
+            {psicologos.map((psicologo, index) => {
+              const estaAberto = aberto === index;
+          
+              return (
+                <li key={index} className="border-b border-blue-200 pb-4">
+                  <button
+                    onClick={() => toggleDetalhes(index)}
+                    className="flex items-center text-blue-900 font-medium hover:underline focus:outline-none"
+                  >
+                    <span className="mr-2 text-blue-900">
+                      {estaAberto ? "▼" : "▶"}
+                    </span>
+                    {psicologo.nomeCompleto}
+                  </button>
+          
+                  {/* Detalhes */}
+                  <div
+                    className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                      estaAberto ? "max-h-screen mt-2" : "max-h-0"
+                    }`}
+                  >
+                    {estaAberto && (
+                      <div className="ml-6 mt-2 text-sm text-blue-800 space-y-1">
+                        <p><strong>Especialidade:</strong> {psicologo.especialidade}</p>
+                        <p><strong>Abordagem:</strong> {psicologo.abordagem}</p>
+                        <p><strong>Tempo de exercício:</strong> {psicologo.tempoExercicio}</p>
+          
+                        <div className="mt-2">
+                          <strong>Horários disponíveis:</strong>
+                          <ul className="list-disc list-inside ml-4">
+                            {psicologo.horariosDisponiveis.map((h, hIndex) => (
+                              <li key={`${hIndex}-${h.diaSemana}-${h.horarioInicio}`}>
                                 {h.diaSemana} — {h.horarioInicio} às {h.horarioFim}
                               </li>
                             ))}
-                            </ul>
-                          </div>
+                          </ul>
                         </div>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+                      </div>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>          
           ) : (
             <p className="text-blue-800">Carregando psicólogos...</p>
           )}

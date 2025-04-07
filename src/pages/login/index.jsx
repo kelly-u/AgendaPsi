@@ -17,6 +17,7 @@ function Login() {
       const usuario = await login(form.email, form.senha);
   
       sessionStorage.setItem("usuarioId", usuario.id);
+      sessionStorage.setItem("tipoUsuario", usuario.tipoUsuario);
       
       navigate("/consultasAgendadas");
     } catch (error) {
