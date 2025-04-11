@@ -4,7 +4,6 @@ import CadastroPaciente from "./pages/cadastro/cadastroPaciente";
 import CadastroPsicologo from "./pages/cadastro/cadastroPsicologo";
 import ConsultasAgendadas from "./pages/consultas/consultasAgendadas";
 import AgendamentoConsultas from "./pages/consultas/agendamentoConsultas";
-import MeuPerfil from "./pages/perfil/index";
 import IndexLogado from "./pages/index/indexLogado";
 import Index from "./pages/index";
 import MeuPerfilPaciente from "./pages/perfil/perfilPaciente";
@@ -12,6 +11,8 @@ import MeuPerfilPsicologo from "./pages/perfil/perfilPsicologo";
 import EdtPerfilPaciente from "./pages/perfil/edtPerfilPaciente";
 import EdtPerfilPsicologo from "./pages/perfil/edtPerfilPsicologo";
 import EdtSenhaPsicologo from "./pages/perfil/edtSenhaPsicologo";
+import ReagendarConsulta from "./pages/consultas/ReagendarConsulta";
+
 
 function App() {
   return (
@@ -43,8 +44,6 @@ function App() {
           element={<ConsultasAgendadas />}
         ></Route>
 
-        <Route path="/meuPerfil" element={<MeuPerfil />}></Route>
-
         <Route path="/indexLogado" element={<IndexLogado />}></Route>
 
         <Route path="/perfilPaciente" element={<MeuPerfilPaciente />}></Route>
@@ -65,6 +64,9 @@ function App() {
           path="/edtSenhaPsicologo"
           element={<EdtSenhaPsicologo />}
         ></Route>
+
+        <Route path="/reagendar-consulta/:consultaId" element={<ReagendarConsulta />} />
+
 
       </Routes>
     </BrowserRouter>

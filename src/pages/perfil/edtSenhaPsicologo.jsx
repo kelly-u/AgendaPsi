@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { alterarSenhaPsicologo } from "../../Api";
 import { Link, useNavigate } from "react-router-dom";
+import NavbarLogado from "../../components/navbarLogado";
 
 function EdtSenhaPsicologo() {
   const [senhaAtual, setSenhaAtual] = useState("");
@@ -36,22 +37,8 @@ function EdtSenhaPsicologo() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-300 to-blue-100 flex flex-col">
       {/* NAVBAR */}
-      <nav className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center space-x-8">
-              <Link to="/indexLogado" className="text-xl font-semibold text-blue-900">Agenda Psi</Link>
-              <Link to="/consultasAgendadas" className="text-blue-900 hover:text-blue-600">Consultas</Link>
-              <Link to="/agendamentoConsultas" className="text-blue-900 hover:text-blue-600">Agendar Consulta</Link>
-              <Link to="/meuPerfil" className="text-blue-900 hover:text-blue-600">Meu Perfil</Link>
-            </div>
-            <div>
-              <Link to="/" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Sair</Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
+      <NavbarLogado />
+      
       {/* FORMULÁRIO */}
       <div className="flex flex-col items-center justify-center flex-1 p-4">
         <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">

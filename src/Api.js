@@ -93,6 +93,44 @@ export const listarPsicologosPublicos = async () => {
     return response.data;
   };
 
+  export const cancelarConsulta = async (pacienteId, consultaId) => {
+    try {
+      const response = await api.patch(`/pacientes/${pacienteId}/consultas/${consultaId}/cancelar`);
+      return response.data;
+    } catch (error) {
+      const msg = error.response?.data?.mensagem || "Erro ao cancelar a consulta.";
+      throw new Error(msg);
+    }
+  };
   
-    
+  export const buscarHorariosPorConsulta = async (consultaId) => {
+    try {
+      const response = await api.get(`/pacientes/consultas/${consultaId}/horarios-disponiveis`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Erro ao buscar horários disponíveis para reagendamento.");
+    }
+  };
+  
+  export const reagendarConsulta = async (pacienteId, consultaId, dados) => {
+    try {
+      const response = await api.patch(`/pacientes/${pacienteId}/consultas/${consultaId}/reagendar`, dados);
+      return response.data;
+    } catch (error) {
+      const msg = error.response?.data?.mensagem || "Erro ao reagendar consulta.";
+      throw new Error(msg);
+    }
+  };
+
+  export const marcarConsultaComoRealizada = async (psicologoId, consultaId) => {
+    try {
+      const response = await api.patch(`/psicologos/${psicologoId}/consultas/${consultaId}/realizar`);
+      return response.data;
+    } catch (error) {
+      const msg = error.response?.data || "Erro ao marcar consulta como realizada.";
+      throw new Error(msg);
+    }
+  };
+  
+  
   

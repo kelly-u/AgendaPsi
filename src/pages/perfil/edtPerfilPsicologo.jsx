@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { buscarDadosPessoaisPsicologo, editarDadosPessoaisPsicologo } from "../../Api";
 import { useNavigate, Link } from "react-router-dom";
+import NavbarLogado from "../../components/navbarLogado";
 
 function EdtPerfilPsicologo() {
   const navigate = useNavigate();
@@ -55,21 +56,7 @@ function EdtPerfilPsicologo() {
   return (
     <div className="bg-gradient-to-b from-blue-300 to-blue-100 min-h-screen flex flex-col">
       
-      <nav className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center space-x-8">
-              <Link to="/indexLogado" className="text-xl font-semibold text-blue-900">Agenda Psi</Link>
-              <Link to="/consultasAgendadas" className="text-blue-900 hover:text-blue-600">Consultas</Link>
-              <Link to="/agendamentoConsultas" className="text-blue-900 hover:text-blue-600">Agendar Consulta</Link>
-              <Link to="/meuPerfil" className="text-blue-900 hover:text-blue-600">Meu Perfil</Link>
-            </div>
-            <div>
-              <Link to="/" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Sair</Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <NavbarLogado/>
 
       {/* CONTEÚDO */}
       <div className="flex flex-col items-center justify-center flex-1 p-4">
