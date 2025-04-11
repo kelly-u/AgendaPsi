@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { buscarDadosPessoaisPsicologo } from "../../Api";
+import { buscarDadosPessoaisPsicologo, verificarPerfilCriado } from "../../Api";
 import { Link } from "react-router-dom";
 import NavbarLogado from "../../components/navbarLogado";
 
 function MeuPerfilPsicologo() {
   const [dados, setDados] = useState(null);
+  const [perfilCriado, setPerfilCriado] = useState(false);
 
   useEffect(() => {
     const psicologoId = sessionStorage.getItem("usuarioId");
@@ -12,6 +13,13 @@ function MeuPerfilPsicologo() {
       buscarDadosPessoaisPsicologo(psicologoId)
         .then(setDados)
         .catch((err) => console.error("Erro ao carregar dados:", err));
+
+      verificarPerfilCriado(psicologoId)
+        .then(setPerfilCriado)
+        .catch((err) => {
+          console.error("Erro ao verificar perfil:", err);
+          setPerfilCriado(false);
+        });
     }
   }, []);
 
@@ -19,7 +27,6 @@ function MeuPerfilPsicologo() {
     <div className="bg-gradient-to-b from-blue-300 to-blue-100 min-h-screen flex flex-col">
       {/* NAVBAR */}
       <NavbarLogado />
-
 
       {/* CONTEÚDO */}
       <div className="flex flex-col items-center justify-center flex-1 p-4">
@@ -42,21 +49,36 @@ function MeuPerfilPsicologo() {
             </div>
           )}
 
-          <div className="mt-8 text-center">
+          <div className="mt-8 text-center space-y-4">
             <Link
               to="/edtPerfilPsicologo"
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+              className="block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Editar Perfil
             </Link>
-          </div>
-          <div className="mt-8 text-center">
             <Link
               to="/edtSenhaPsicologo"
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+              className="block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Editar Senha
             </Link>
+
+            {/* Botão dinâmico */}
+            {perfilCriado ? (
+              <Link
+                to="/edtPerfilPublico"
+                className="block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Editar Perfil Público
+              </Link>
+            ) : (
+              <Link
+                to="/criarPerfilPublico"
+                className="block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Criar Perfil Público
+              </Link>
+            )}
           </div>
         </div>
       </div>

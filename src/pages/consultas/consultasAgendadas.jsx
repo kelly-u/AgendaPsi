@@ -201,12 +201,19 @@ function ConsultasAgendadas() {
           )}
 
           {tipo === "paciente" && (
-            <div className="mt-8 text-center">
+            <div className="mt-8 text-center flex flex-col sm:flex-row justify-center gap-4">
               <button
                 onClick={() => navigate("/agendamentoConsultas")}
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors hover:cursor-pointer"
               >
                 Agendar nova consulta
+              </button>
+
+              <button
+                onClick={() => navigate("/ConsultasRealizadas")}
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors hover:cursor-pointer"
+              >
+                Consultas realizadas
               </button>
             </div>
           )}

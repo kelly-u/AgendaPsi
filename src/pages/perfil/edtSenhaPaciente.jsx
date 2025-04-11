@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { alterarSenhaPsicologo } from "../../Api";
-import { Link, useNavigate } from "react-router-dom";
+import { alterarSenhaPaciente } from "../../Api";
+import { useNavigate } from "react-router-dom";
 import NavbarLogado from "../../components/navbarLogado";
 
-function EdtSenhaPsicologo() {
+function EdtSenhaPaciente() {
   const [senhaAtual, setSenhaAtual] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
@@ -21,13 +21,13 @@ function EdtSenhaPsicologo() {
 
     try {
       const id = sessionStorage.getItem("usuarioId");
-      await alterarSenhaPsicologo(id, { senhaAtual, novaSenha });
+      await alterarSenhaPaciente(id, { senhaAtual, novaSenha });
       setSucesso("Senha atualizada com sucesso!");
       setErro("");
       setSenhaAtual("");
       setNovaSenha("");
       setConfirmarSenha("");
-      setTimeout(() => navigate("/perfilPsicologo"), 2000);
+      setTimeout(() => navigate("/perfilPaciente"), 2000);
     } catch (err) {
       setErro(err.message);
       setSucesso("");
@@ -36,10 +36,8 @@ function EdtSenhaPsicologo() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-300 to-blue-100 flex flex-col">
-      {/* NAVBAR */}
       <NavbarLogado />
 
-      {/* FORMULÁRIO */}
       <div className="flex flex-col items-center justify-center flex-1 p-4">
         <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
           <h2 className="text-2xl font-bold text-blue-900 mb-6 text-center">Alterar Senha</h2>
@@ -54,7 +52,7 @@ function EdtSenhaPsicologo() {
                 type="password"
                 value={senhaAtual}
                 onChange={(e) => setSenhaAtual(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-blue-400"
+                className="w-full px-4 py-2 border rounded-lg"
                 required
               />
             </div>
@@ -65,7 +63,7 @@ function EdtSenhaPsicologo() {
                 type="password"
                 value={novaSenha}
                 onChange={(e) => setNovaSenha(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-blue-400"
+                className="w-full px-4 py-2 border rounded-lg"
                 required
               />
             </div>
@@ -76,7 +74,7 @@ function EdtSenhaPsicologo() {
                 type="password"
                 value={confirmarSenha}
                 onChange={(e) => setConfirmarSenha(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-blue-400"
+                className="w-full px-4 py-2 border rounded-lg"
                 required
               />
             </div>
@@ -94,4 +92,4 @@ function EdtSenhaPsicologo() {
   );
 }
 
-export default EdtSenhaPsicologo;
+export default EdtSenhaPaciente;

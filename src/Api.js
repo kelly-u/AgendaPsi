@@ -131,6 +131,71 @@ export const listarPsicologosPublicos = async () => {
       throw new Error(msg);
     }
   };
+
+  export const buscarDadosPessoaisPaciente = async (id) => {
+    try {
+      const response = await api.get(`/pacientes/${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Erro ao buscar dados do paciente.");
+    }
+  };
+  
+  export const editarDadosPessoaisPaciente = async (id, dados) => {
+    try {
+      const response = await api.put(`/pacientes/${id}/editar-dados`, dados);
+      return response.data;
+    } catch {
+      throw new Error("Erro ao editar dados do paciente.");
+    }
+  };
+  
+  export const alterarSenhaPaciente = async (id, { senhaAtual, novaSenha }) => {
+    try {
+      await api.patch(
+        `/pacientes/${id}/alterar-senha`,
+        { senhaAtual, novaSenha },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      const msg = error.response?.data || "Erro ao alterar senha.";
+      throw new Error(msg);
+    }
+  };
+  
+
+  export const buscarPerfilPsicologo = async (id) => {
+    try {
+      const response = await api.get(`/psicologos/${id}/perfil`);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return null; 
+      }
+      throw new Error("Erro ao buscar perfil do psicólogo.");
+    }
+  };
+
+  export const criarPerfilPublico = async (id, dados) => {
+    try {
+      const response = await api.post(`/psicologos/${id}/criar-perfil`, dados);
+      return response.data;
+    } catch (error) {
+      const msg = error.response?.data || "Erro ao criar perfil público.";
+      throw new Error(msg);
+    }
+  };
+  
+  
+  export const verificarPerfilCriado = async (id) => {
+    try {
+      const response = await api.get(`/psicologos/${id}/verificar-perfil`);
+      return response.data; // true ou false
+    } catch (error) {
+      throw new Error("Erro ao verificar se o perfil público foi criado.");
+    }
+  };
+  
   
   
   

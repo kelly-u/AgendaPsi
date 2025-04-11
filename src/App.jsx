@@ -12,6 +12,9 @@ import EdtPerfilPaciente from "./pages/perfil/edtPerfilPaciente";
 import EdtPerfilPsicologo from "./pages/perfil/edtPerfilPsicologo";
 import EdtSenhaPsicologo from "./pages/perfil/edtSenhaPsicologo";
 import ReagendarConsulta from "./pages/consultas/ReagendarConsulta";
+import EdtSenhaPaciente from "./pages/perfil/edtSenhaPaciente";
+import HistoricoConsultasRealizadas from "./pages/consultas/consultasRealizadas";
+import CriarPerfilPublico from "./pages/perfil/criarPerfilPublico";
 
 
 function App() {
@@ -67,6 +70,11 @@ function App() {
 
         <Route path="/reagendar-consulta/:consultaId" element={<ReagendarConsulta />} />
 
+        <Route path="/edtSenhaPaciente" element={<EdtSenhaPaciente />} />
+
+        <Route path="/ConsultasRealizadas" element={<HistoricoConsultasRealizadas />} />
+
+        <Route path="/criarPerfilPublico" element={<CriarPerfilPublico />} />
 
       </Routes>
     </BrowserRouter>
